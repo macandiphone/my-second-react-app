@@ -1,9 +1,11 @@
 import './App.css';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Title from './components/Title';
 import Modal from './components/Modal';
+import EventList from './components/EventList';
 
 function App() {
+  const [showModal, setShowModal] = useState(false);
   const [showEvents, setShowEvents] = useState(true);
   const [events, setEvents] = useState([
     { title: `mario's birthday bash`, id: 1 },
@@ -11,15 +13,19 @@ function App() {
     { title: `race on moo moo farm`, id: 3 }
   ]);
 
-  console.log(showEvents);
+  console.log(showModal);
 
   const handleClick = id => {
     setEvents(prevEvents => {
       return prevEvents.filter(event => {
-        return event.id;
+        return id !== event.id;
       });
     });
     console.log(id);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
   };
 
   const subtitle = 'All the latest events in Mario land';
@@ -27,7 +33,6 @@ function App() {
   return (
     <div className="App">
       <Title title="Events in Your Area" subtitle={subtitle} />
-
       {showEvents && (
         <div>
           <button onClick={() => setShowEvents(false)}>hide events</button>
@@ -38,24 +43,22 @@ function App() {
           <button onClick={() => setShowEvents(true)}>show events</button>
         </div>
       )}
-      {showEvents &&
-        events.map((event, index) => (
-          <React.Fragment key={event.id}>
-            <h2>
-              {index} - {event.title}
-            </h2>
-            <button onClick={() => handleClick(event.id)}>delete event</button>
-          </React.Fragment>
-        ))}
+      {showEvents && <EventList events={events} handleClick={handleClick} />}
 
-      <Modal>
-        <h2>Terms and Conditions</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi
-          dolores doloribus eaque eos incidunt modi molestias necessitatibus
-          odit porro quae. Deserunt doloribus excepturi necessitatibus odio?
-        </p>
-      </Modal>
+      {showModal && (
+        <Modal handleClose={handleClose}>
+          <h2>Terms and Conditions</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi
+            dolores doloribus eaque eos incidunt modi molestias necessitatibus
+            odit porro quae. Deserunt doloribus excepturi necessitatibus odio?
+          </p>
+        </Modal>
+      )}
+
+      <div>
+        <button onClick={() => setShowModal(true)}>Show Modal</button>
+      </div>
     </div>
   );
 }
