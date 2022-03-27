@@ -1,6 +1,7 @@
 import './App.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Title from './components/Title';
+import Modal from './components/Modal';
 
 function App() {
   const [showEvents, setShowEvents] = useState(true);
@@ -15,15 +16,18 @@ function App() {
   const handleClick = id => {
     setEvents(prevEvents => {
       return prevEvents.filter(event => {
-        return id !== event.id;
+        return event.id;
       });
     });
     console.log(id);
   };
 
+  const subtitle = 'All the latest events in Mario land';
+
   return (
     <div className="App">
-      <Title />
+      <Title title="Events in Your Area" subtitle={subtitle} />
+
       {showEvents && (
         <div>
           <button onClick={() => setShowEvents(false)}>hide events</button>
@@ -36,13 +40,22 @@ function App() {
       )}
       {showEvents &&
         events.map((event, index) => (
-          <div key={event.id}>
+          <React.Fragment key={event.id}>
             <h2>
               {index} - {event.title}
             </h2>
             <button onClick={() => handleClick(event.id)}>delete event</button>
-          </div>
+          </React.Fragment>
         ))}
+
+      <Modal>
+        <h2>Terms and Conditions</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi
+          dolores doloribus eaque eos incidunt modi molestias necessitatibus
+          odit porro quae. Deserunt doloribus excepturi necessitatibus odio?
+        </p>
+      </Modal>
     </div>
   );
 }
