@@ -46,7 +46,7 @@ function App() {
       {showEvents && <EventList events={events} handleClick={handleClick} />}
 
       {showModal && (
-        <Modal handleClose={handleClose}>
+        <Modal handleClose={handleClose} isSaleModal={true}>
           <h2>Terms and Conditions</h2>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi
