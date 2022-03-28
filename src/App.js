@@ -3,19 +3,17 @@ import { useState } from 'react';
 import Title from './components/Title';
 import Modal from './components/Modal';
 import EventList from './components/EventList';
-import NewEventForm from './components/NewEventForm';
 
 function App() {
   const [showModal, setShowModal] = useState(false);
   const [showEvents, setShowEvents] = useState(true);
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState([
+    { title: `mario's birthday bash`, id: 1 },
+    { title: `luigi's live stream`, id: 2 },
+    { title: `race on moo moo farm`, id: 3 }
+  ]);
 
-  const addEvent = event => {
-    setEvents(prevEvents => {
-      return [...prevEvents, event];
-    });
-    setShowModal(false);
-  };
+  console.log(showModal);
 
   const handleClick = id => {
     setEvents(prevEvents => {
@@ -24,6 +22,10 @@ function App() {
       });
     });
     console.log(id);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
   };
 
   const subtitle = 'All the latest events in Mario land';
@@ -44,13 +46,18 @@ function App() {
       {showEvents && <EventList events={events} handleClick={handleClick} />}
 
       {showModal && (
-        <Modal isSaleModal={true}>
-          <NewEventForm addEvent={addEvent} />
+        <Modal handleClose={handleClose} isSaleModal={true}>
+          <h2>Terms and Conditions</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi
+            dolores doloribus eaque eos incidunt modi molestias necessitatibus
+            odit porro quae. Deserunt doloribus excepturi necessitatibus odio?
+          </p>
         </Modal>
       )}
 
       <div>
-        <button onClick={() => setShowModal(true)}>Add New Event</button>
+        <button onClick={() => setShowModal(true)}>Show Modal</button>
       </div>
     </div>
   );
